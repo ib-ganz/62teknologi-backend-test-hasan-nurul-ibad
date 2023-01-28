@@ -68,17 +68,18 @@ class BusinessController extends Controller
             'alias' => $request->alias,
             'name' => $request->name,
             'image_url' => $request->image_url,
-            'is_claimed' => $request->is_claimed,
+            'is_claimed' => $request->is_claimed ?? false,
             'is_closed' => $request->is_closed,
             'url' => $request->url,
             'review_count' => $request->review_count,
             'rating' => $request->rating,
             'latitude' => $request->coordinates['latitude'],
             'longitude' => $request->coordinates['longitude'],
-            'price' => $request->price,
-            'phone' => $request->phone,
-            'display_phone' => $request->display_phone,
+            'price' => $request->price ?? '$',
+            'phone' => $request->phone ?? '',
+            'display_phone' => $request->display_phone ?? '',
             'distance' => $request->distance,
+            'photos' => $request->photos ?? '[]',
         ]);
 
         BusinessCategory::query()->where('business_id', $id)->delete();
@@ -98,7 +99,7 @@ class BusinessController extends Controller
             'country' => $location->country,
             'state' => $location->state,
             'display_address' => json_encode($location->display_address),
-            'cross_streets' => $location->cross_streets,
+            'cross_streets' => $location->cross_streets ?? '',
         ]);
 
         return response()->json([
