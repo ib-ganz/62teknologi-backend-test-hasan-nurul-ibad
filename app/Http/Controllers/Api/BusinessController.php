@@ -306,11 +306,20 @@ class BusinessController extends Controller
 
     public function show($id)
     {
-        return response()->json([
-            'success' => true,
-            'data' => Business::query()
-                ->with('categories', 'transactions', 'location', 'hours')
-                ->find($id)
-        ]);
+        $r = Business::query()
+            ->with('categories', 'transactions', 'location', 'hours')
+            ->find($id);
+        if ($r) {
+            return response()->json([
+                'success' => true,
+                'data' => $r
+            ]);
+        }
+        else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data not found',
+            ]);
+        }
     }
 }
